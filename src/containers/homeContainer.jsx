@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import Header from "../components/header";
 import Form from "../components/form";
 import Weather from "../components/weather";
+import { Container } from "@material-ui/core";
+var moment = require("moment");
 
 export default class homeContainer extends Component {
   state = {
-    temperature: undefined,
-    city: undefined,
-    humidity: undefined,
-    description: undefined,
-    error: undefined
+    error: undefined,
+    weatherData: []
   };
   //getWeather is a method we'll use to make the api call
   getWeather = async e => {
@@ -17,34 +16,41 @@ export default class homeContainer extends Component {
 
     e.preventDefault();
     const api_call = await fetch(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=b751f390d4e694d0bb82e1cd8180c2cf`
+      `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=b751f390d4e694d0bb82e1cd8180c2cf`
     );
     const response = await api_call.json();
-    console.log(response);
-    if (city) {
-      this.setState({
-        temperature: response.main.temp,
-        city: response.name,
 
-        humidity: response.main.humidity,
-        description: response.weather[0].description,
-        error: ""
-      });
-    } else {
-      this.setState({
-        error: "Please input search values..."
-      });
-    }
+    var weatherData = response.list;
+    var bank = [];
+    var today = moment().date();
+
+    var newData = weatherData.filter(day => {
+      var ApiDate = moment.unix(day.dt).date();
+      if (ApiDate === today) {
+        return false;
+      } else if (bank.indexOf(ApiDate) > -1) {
+        return false;
+      } else {
+        bank.push(ApiDate);
+        return true;
+      }
+    });
+
+    this.setState({
+      weatherData: newData
+    });
+    console.log(this.state.weatherData);
   };
 
   render() {
     return (
       <>
         <Header />
-        <div>
+
+        <Container maxWidth="xs">
           <Form getWeather={this.getWeather} />
-          <Weather />
-        </div>
+        </Container>
+        <Weather weatherData={this.state.weatherData} />
       </>
     );
   }
