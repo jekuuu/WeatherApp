@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/jekuuu/WeatherApp/static/css/main.50a1293d.chunk.css",
+    "main.js": "/jekuuu/WeatherApp/static/js/main.51c709b6.chunk.js",
+    "main.js.map": "/jekuuu/WeatherApp/static/js/main.51c709b6.chunk.js.map",
+    "runtime~main.js": "/jekuuu/WeatherApp/static/js/runtime~main.bab97ea4.js",
+    "runtime~main.js.map": "/jekuuu/WeatherApp/static/js/runtime~main.bab97ea4.js.map",
+    "static/js/2.5ed20b91.chunk.js": "/jekuuu/WeatherApp/static/js/2.5ed20b91.chunk.js",
+    "static/js/2.5ed20b91.chunk.js.map": "/jekuuu/WeatherApp/static/js/2.5ed20b91.chunk.js.map",
+    "index.html": "/jekuuu/WeatherApp/index.html",
+    "precache-manifest.9d125e9798a05ac137e59f8b83b46295.js": "/jekuuu/WeatherApp/precache-manifest.9d125e9798a05ac137e59f8b83b46295.js",
+    "service-worker.js": "/jekuuu/WeatherApp/service-worker.js",
+    "static/css/main.50a1293d.chunk.css.map": "/jekuuu/WeatherApp/static/css/main.50a1293d.chunk.css.map",
+    "static/media/weather-app.png": "/jekuuu/WeatherApp/static/media/weather-app.e5fb8c5a.png"
+  }
+}
