@@ -1,74 +1,53 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { Grid, CardActionArea } from "@material-ui/core";
+import { Container, Row, Col, Card, Spinner, Alert } from "react-bootstrap";
+import WeatherIcon from "./weatherIcon";
+var moment = require("moment");
 
-const useStyles = makeStyles({
-  title: {
-    fontSize: 20
-  },
-  pos: {
-    marginBottom: 12
-  }
-});
-const Weather = ({ weatherData }) => {
-  const classes = useStyles();
+const Weather = ({ weatherData, error, isLoading }) => {
   const roundTemp = temp => {
     return Math.round(temp * 10) / 10;
   };
+  const content = isLoading ? (
+    <>
+      <Col lg={6} />
+      <Col className="d-flex justify-content-between" lg={4}>
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </Col>
+    </>
+  ) : error !== "404" ? (
+    weatherData.map(data => (
+      <Col lg={2} key={data.dt} className="mx-2 py-3">
+        <Card style={{ width: "12.5rem", backgroundColor: "#212529" }}>
+          <WeatherIcon e={data.weather[0].icon} />
+          <Card.Body>
+            <Card.Text style={{ color: "#fff", textTransform: "capitalize" }}>
+              {data.weather[0].description}
+            </Card.Text>
+            <Card.Text style={{ color: "#fff" }}>
+              {roundTemp(data.main.temp)}&#176;C
+            </Card.Text>
+            <Card.Text style={{ color: "#fff" }}>
+              {moment.unix(data.dt).format("dddd, MMM D")}
+            </Card.Text>
+          </Card.Body>
+        </Card>
+      </Col>
+    ))
+  ) : (
+    <>
+      <Col lg={6} />
+      <Col className="d-flex justify-content-between" lg={6}>
+        <Alert variant="danger">City Not found</Alert>
+      </Col>
+    </>
+  );
 
-  const weatherIcon = e => {
-    if (e === "10n" || e === "10d" || e === "9n" || e === "9d") {
-      return "rain";
-    } else if (
-      e === "02d" ||
-      e === "02n" ||
-      e === "03d" ||
-      e === "03n" ||
-      e === "04d" ||
-      e === "04n"
-    ) {
-      return "fewclouds";
-    } else if (e === "13n" || e === "13d") {
-      return "snow";
-    } else if (e === "01n" || e === "01d") {
-      return "clearSky";
-    } else if (e === "11n" || e === "11d") {
-      return "thunderstorm";
-    } else if (e === "50n" || e === "50d") {
-      return "mist";
-    } else {
-      return "sunny";
-    }
-  };
   return (
-    <Grid container direction="row" spacing={1} style={{ marginTop: "2%" }}>
-      {weatherData.map(data => (
-        <Grid item xs={2} sm={2} key={data.dt}>
-          <Card className={classes.card}>
-            <CardActionArea>
-              <img className={weatherIcon(data.weather[0].icon)} alt="" />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {data.weather[0].main}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <sub>{roundTemp(data.main.temp_min)}</sub>
-                </Typography>
-                <Typography gutterBottom variant="h5" component="h2">
-                  {roundTemp(data.main.temp)}&#176;C
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  <sup>{roundTemp(data.main.temp_max)}</sup>
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
+    <Container>
+      <Row className="mt-3 ml-1">{content}</Row>
+    </Container>
   );
 };
 export default Weather;

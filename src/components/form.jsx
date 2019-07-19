@@ -1,42 +1,35 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import {
-  FormControl,
-  Input,
-  InputLabel,
-  Grid,
-  Typography
-} from "@material-ui/core";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
-const Form = props => {
+const WeatherForm = ({ getWeather }) => {
   return (
-    <Grid container alignItems="center" justify="center">
-      <Grid item xs={12} mx="auto">
-        <Typography color="primary" variant="h4" component="h2" mt={5}>
-          Get Weather Updates
-        </Typography>
-        <form onSubmit={props.getWeather}>
-          <FormControl>
-            <InputLabel htmlFor="my-input">Enter City...</InputLabel>
-            <Input
-              id="my-input"
+    <Container>
+      <Form onSubmit={getWeather}>
+        <Row className="justify-content-md-center mx-auto">
+          <Col xs lg="1" />
+          <Col xs lg="4" className="mt-3">
+            <h3 style={{ color: "#0cf" }}>Get Weather Update</h3>
+          </Col>
+        </Row>
+        <Row className="justify-content-md-center mx-auto mt-3">
+          <Col xs lg="4" />
+          <Col xs lg="4">
+            <Form.Control
+              type="text"
+              placeholder="Enter City Name"
               name="city"
-              aria-describedby="my-helper-text"
+              size="sm"
+              autoFocus={true}
             />
-          </FormControl>
-
-          <Button
-            variant="contained"
-            type="submit"
-            color="primary"
-            size="small"
-            className="submitBtn"
-          >
-            Get Weather
-          </Button>
-        </form>
-      </Grid>
-    </Grid>
+          </Col>
+          <Col xs lg="4">
+            <Button variant="dark" type="submit" size="sm">
+              Get Weather
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
   );
 };
-export default Form;
+export default WeatherForm;
